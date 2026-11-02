@@ -81,10 +81,13 @@ async IAsyncEnumerable<AgentResponseUpdate> RecordAsync(
     var threadId = accessor.HttpContext?.Items["threadId"] as string ?? Guid.NewGuid().ToString("N");
     try
     {
-        await foreach (var update in next.RunStreamingAsync(input, session, options, ct))
+        await using var e__ = next.RunStreamingAsync(input, session, options, ct).GetAsyncEnumerator(ct);
+        while (true)
         {
-            updates.Add(update);
-            yield return update;
+            try { if (!await e__.MoveNextAsync()) break; }
+            catch (Exception ex) { Console.Error.WriteLine("DIAG: " + ex); throw; }
+            updates.Add(e__.Current);
+            yield return e__.Current;
         }
     }
     finally
