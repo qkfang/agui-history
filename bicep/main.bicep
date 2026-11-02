@@ -55,6 +55,8 @@ resource project 'Microsoft.CognitiveServices/accounts/projects@2025-06-01' = {
 resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
   parent: account
   name: modelName
+  // Avoid RequestConflict from concurrent child operations on the account.
+  dependsOn: [project]
   sku: {
     name: modelSkuName
     capacity: modelCapacity
