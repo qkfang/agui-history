@@ -1,0 +1,18 @@
+{
+  "id": "4c57ea38-a3b2-480a-b999-ce8fb40e5afd",
+  "title": "hello",
+  "createdAt": "2026-11-02T02:06:12.0663724+00:00",
+  "updatedAt": "2026-11-02T02:06:12.0663724+00:00",
+  "messages": [
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "hello"
+        }
+      ],
+      "messageId": "V0ggbgL"
+    }
+  ]
+}

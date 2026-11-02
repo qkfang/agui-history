@@ -1,0 +1,18 @@
+{
+  "id": "c986833f-5191-4160-bbbe-681219a967af",
+  "title": "hi",
+  "createdAt": "2026-11-02T02:05:25.195404+00:00",
+  "updatedAt": "2026-11-02T02:05:25.195404+00:00",
+  "messages": [
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "hi"
+        }
+      ],
+      "messageId": "jfncVqj"
+    }
+  ]
+}

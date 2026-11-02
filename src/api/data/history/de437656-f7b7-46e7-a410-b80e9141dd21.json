@@ -1,0 +1,216 @@
+{
+  "id": "de437656-f7b7-46e7-a410-b80e9141dd21",
+  "title": "how",
+  "createdAt": "2026-11-02T02:25:41.653566+00:00",
+  "updatedAt": "2026-11-02T02:53:13.4417013+00:00",
+  "messages": [
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "how"
+        }
+      ],
+      "messageId": "gOUF1Mh"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Hi — what can I help you with?"
+        }
+      ],
+      "messageId": "msg_00143c7b95f924dc006ae7f4a83e5c8195823e563eba297f97"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "howis weather"
+        }
+      ],
+      "messageId": "elfxErg"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Which city?"
+        }
+      ],
+      "messageId": "msg_0bcd3ebdc95323c6006ae7f4ac960881949cd9e08a4c895110"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "melb"
+        }
+      ],
+      "messageId": "94nkWI8"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "functionCall",
+          "name": "_Main_g_GetWeather_0_3",
+          "arguments": {
+            "city": "Melb"
+          },
+          "informationalOnly": false,
+          "callId": "call_3oGadebYFym0vWM6Fw70JBDM"
+        }
+      ],
+      "messageId": "de437656-f7b7-46e7-a410-b80e9141dd21-5"
+    },
+    {
+      "role": "tool",
+      "contents": [
+        {
+          "$type": "functionResult",
+          "result": "Melb: windy, 15°C",
+          "callId": "call_3oGadebYFym0vWM6Fw70JBDM"
+        }
+      ],
+      "messageId": "1bfe7d60e535436bbb3686d8cc729c1a"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Melb: windy, 15°C."
+        }
+      ],
+      "messageId": "msg_0da94a8652a0cca1006ae7f4b85634819798a015d31204cf6c"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "hi"
+        }
+      ],
+      "messageId": "MqZTJJn"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Hi!"
+        }
+      ],
+      "messageId": "msg_0e24a1f734f9d8b4006ae7f8bca37c8195b80579d03ace40b2"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "what was weather"
+        }
+      ],
+      "messageId": "2zPw57X"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "It was windy, 15°C in Melb."
+        }
+      ],
+      "messageId": "msg_015cfefbcba5d76d006ae7f8c6042c8193b21e6948f8d6c57a"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "hi"
+        }
+      ],
+      "messageId": "4f84IQr"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Hi!"
+        }
+      ],
+      "messageId": "msg_08c5f74ce4f75d64006ae7f8e0b84081968bee09265514e4ab"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "weahter?"
+        }
+      ],
+      "messageId": "A3mJX9W"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Which city?"
+        }
+      ],
+      "messageId": "msg_00cd176ba451c1a1006ae7f9017ab0819497c8da49a0f14840"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "hi"
+        }
+      ],
+      "messageId": "Jfh2p00"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Hi!"
+        }
+      ],
+      "messageId": "msg_016749b26ef3c433006ae7faeb6b1481939290d9f837a12beb"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "good day"
+        }
+      ],
+      "messageId": "5RAGJAV"
+    },
+    {
+      "authorName": "agui-assistant",
+      "createdAt": "2026-11-02T02:53:15+00:00",
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Good day!"
+        }
+      ],
+      "messageId": "msg_0860d63b3aef18a1006ae7fb1c05f081948143a48eb95e034d"
+    }
+  ]
+}

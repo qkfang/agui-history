@@ -1,0 +1,79 @@
+{
+  "id": "933856ea-373e-4cc6-b275-48444f782787",
+  "title": "hi",
+  "createdAt": "2026-11-02T02:15:36.3609674+00:00",
+  "updatedAt": "2026-11-02T02:15:48.9702084+00:00",
+  "messages": [
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "hi"
+        }
+      ],
+      "messageId": "Yum4inm"
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Hi! How can I help?"
+        }
+      ],
+      "messageId": "msg_0d640ea19814e51a006ae7f24b0f708196be394a514ec66922"
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "how is sydney weather"
+        }
+      ],
+      "messageId": "SIESw2w"
+    },
+    {
+      "authorName": "agui-assistant",
+      "createdAt": "2026-11-02T02:15:47+00:00",
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "functionCall",
+          "name": "_Main_g_GetWeather_0_3",
+          "arguments": {
+            "city": "Sydney"
+          },
+          "informationalOnly": true,
+          "callId": "call_sIHWej4OtDCkCluUFnwYsyPN"
+        }
+      ]
+    },
+    {
+      "authorName": "agui-assistant",
+      "createdAt": "2026-11-02T02:15:45.8088943+00:00",
+      "role": "tool",
+      "contents": [
+        {
+          "$type": "functionResult",
+          "result": "Sydney: sunny, 8°C",
+          "callId": "call_sIHWej4OtDCkCluUFnwYsyPN"
+        }
+      ],
+      "messageId": "c53605e589b3473d98d3955407af1c62"
+    },
+    {
+      "authorName": "agui-assistant",
+      "createdAt": "2026-11-02T02:15:50+00:00",
+      "role": "assistant",
+      "contents": [
+        {
+          "$type": "text",
+          "text": "Sydney: sunny, 8°C."
+        }
+      ],
+      "messageId": "msg_0c659e017cc639a2006ae7f25792cc8195b17d15d40765a4e9"
+    }
+  ]
+}

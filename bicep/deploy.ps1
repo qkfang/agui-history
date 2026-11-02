@@ -47,8 +47,10 @@ if ($LASTEXITCODE -ne 0) { throw 'API deploy failed.' }
 $appDir = Join-Path $root 'src/app'
 Push-Location $appDir
 try {
-    npm ci
-    if ($LASTEXITCODE -ne 0) { throw 'npm ci failed.' }
+    if (-not (Test-Path node_modules)) {
+        npm ci
+        if ($LASTEXITCODE -ne 0) { throw 'npm ci failed.' }
+    }
     $env:VITE_API_URL = $outputs.apiUrl.value
     npm run build
     if ($LASTEXITCODE -ne 0) { throw 'npm run build failed.' }

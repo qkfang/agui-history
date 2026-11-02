@@ -3,6 +3,5 @@ bin/
 obj/
 node_modules/
 dist/
-src/api/data/
 *.user
 .deploy/
