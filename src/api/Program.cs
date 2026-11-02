@@ -10,7 +10,13 @@ using Microsoft.Extensions.AI;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAGUIServer();
-builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
+{
+    if (allowedOrigins.Length > 0) p.WithOrigins(allowedOrigins);
+    else p.AllowAnyOrigin();
+    p.AllowAnyHeader().AllowAnyMethod();
+}));
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.TypeInfoResolverChain.Insert(0, AIJsonUtilities.DefaultOptions.TypeInfoResolver!));
 
 var endpoint = builder.Configuration["Foundry:ProjectEndpoint"]

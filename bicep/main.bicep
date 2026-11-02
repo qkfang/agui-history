@@ -120,6 +120,8 @@ resource apiApp 'Microsoft.Web/sites@2024-04-01' = {
         { name: 'Foundry__Model', value: deployment.name }
         // /home is persistent storage shared across instances.
         { name: 'History__Directory', value: '/home/data/history' }
+        // Only the deployed web app may call the API from a browser.
+        { name: 'Cors__AllowedOrigins__0', value: 'https://${webApp.properties.defaultHostName}' }
       ]
     }
   }
