@@ -10,7 +10,13 @@ using Microsoft.Extensions.AI;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAGUIServer();
-builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
+{
+    if (allowedOrigins.Length > 0) p.WithOrigins(allowedOrigins);
+    else p.AllowAnyOrigin();
+    p.AllowAnyHeader().AllowAnyMethod();
+}));
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.TypeInfoResolverChain.Insert(0, AIJsonUtilities.DefaultOptions.TypeInfoResolver!));
 
 var endpoint = builder.Configuration["Foundry:ProjectEndpoint"]
@@ -101,6 +107,10 @@ app.MapAGUIServer("/agui", agent);
 app.MapGet("/api/history", () => store.List());
 app.MapGet("/api/history/{id}", (string id) =>
     store.Load(id) is { } r ? Results.Json(r, HistoryStore.JsonOptions) : Results.NotFound());
+
+// AG-UI serialization: restore a thread as a MESSAGES_SNAPSHOT event.
+app.MapGet("/api/threads/{id}/snapshot", (string id) =>
+    store.Load(id) is { } r ? Results.Json(AguiSnapshot.From(r), HistoryStore.JsonOptions) : Results.NotFound());
 
 app.Run();
 
