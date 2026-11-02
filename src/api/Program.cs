@@ -102,6 +102,10 @@ app.MapGet("/api/history", () => store.List());
 app.MapGet("/api/history/{id}", (string id) =>
     store.Load(id) is { } r ? Results.Json(r, HistoryStore.JsonOptions) : Results.NotFound());
 
+// AG-UI serialization: restore a thread as a MESSAGES_SNAPSHOT event.
+app.MapGet("/api/threads/{id}/snapshot", (string id) =>
+    store.Load(id) is { } r ? Results.Json(AguiSnapshot.From(r), HistoryStore.JsonOptions) : Results.NotFound());
+
 app.Run();
 
 

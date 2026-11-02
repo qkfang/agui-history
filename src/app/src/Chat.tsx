@@ -1,5 +1,12 @@
-import { AssistantRuntimeProvider, ComposerPrimitive, MessagePrimitive, ThreadPrimitive } from "@assistant-ui/react";
-import { useAgUiRuntime } from "@assistant-ui/react-ag-ui";
+import {
+  AssistantRuntimeProvider,
+  ComposerPrimitive,
+  ExportedMessageRepository,
+  MessagePrimitive,
+  ThreadPrimitive,
+  type ThreadHistoryAdapter,
+} from "@assistant-ui/react";
+import { fromAgUiMessages, useAgUiRuntime, type AgUiMessage } from "@assistant-ui/react-ag-ui";
 import { HttpAgent } from "@ag-ui/client";
 import { useMemo } from "react";
 import { API_URL } from "./api";
@@ -34,9 +41,24 @@ function AssistantMessage() {
   );
 }
 
-export function Chat({ threadId }: { threadId: string }) {
+interface ChatProps {
+  threadId: string;
+  /** AG-UI messages (e.g. from a MESSAGES_SNAPSHOT) to restore the thread with. */
+  initialMessages?: AgUiMessage[];
+  readOnly?: boolean;
+}
+
+export function Chat({ threadId, initialMessages, readOnly }: ChatProps) {
   const agent = useMemo(() => new HttpAgent({ url: `${API_URL}/agui`, threadId }), [threadId]);
-  const runtime = useAgUiRuntime({ agent });
+  const history = useMemo<ThreadHistoryAdapter | undefined>(
+    () =>
+      initialMessages && {
+        load: async () => ExportedMessageRepository.fromArray(fromAgUiMessages(initialMessages)),
+        append: async () => {},
+      },
+    [initialMessages],
+  );
+  const runtime = useAgUiRuntime({ agent, adapters: history ? { history } : undefined });
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
@@ -47,10 +69,12 @@ export function Chat({ threadId }: { threadId: string }) {
           </ThreadPrimitive.Empty>
           <ThreadPrimitive.Messages components={{ UserMessage, AssistantMessage }} />
         </ThreadPrimitive.Viewport>
-        <ComposerPrimitive.Root className="composer">
-          <ComposerPrimitive.Input className="composer-input" placeholder="Send a message…" autoFocus />
-          <ComposerPrimitive.Send className="btn">Send</ComposerPrimitive.Send>
-        </ComposerPrimitive.Root>
+        {!readOnly && (
+          <ComposerPrimitive.Root className="composer">
+            <ComposerPrimitive.Input className="composer-input" placeholder="Send a message…" autoFocus />
+            <ComposerPrimitive.Send className="btn">Send</ComposerPrimitive.Send>
+          </ComposerPrimitive.Root>
+        )}
       </ThreadPrimitive.Root>
     </AssistantRuntimeProvider>
   );

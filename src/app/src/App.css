@@ -36,3 +36,5 @@ main { flex: 1; min-height: 0; }
 .history-detail { flex: 1; min-width: 0; padding: 8px 16px; }
 .replay { display: flex; flex-direction: column; height: 100%; }
 .replay-controls { display: flex; gap: 8px; align-items: center; padding: 8px 0; }
+.thread-detail { display: flex; flex-direction: column; }
+.thread-body { flex: 1; min-height: 0; }
