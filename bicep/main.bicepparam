@@ -6,4 +6,5 @@ param modelVersion = '2026-03-05'
 param modelSkuName = 'GlobalStandard'
 param modelCapacity = 50
 param principalType = 'User'
+param appServiceSkuName = 'B1'
 // principalId is supplied by deploy.ps1 (signed-in user)

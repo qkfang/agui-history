@@ -23,3 +23,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Deployment failed.' }
 
 Write-Host "Project endpoint: $($outputs.projectEndpoint.value)"
 Write-Host "Model deployment: $($outputs.modelDeployment.value)"
+Write-Host "API app:          $($outputs.apiAppName.value) ($($outputs.apiUrl.value))"
+Write-Host "Web app:          $($outputs.webAppName.value) ($($outputs.webUrl.value))"

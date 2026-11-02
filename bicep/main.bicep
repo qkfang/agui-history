@@ -24,9 +24,15 @@ param principalId string = ''
 @allowed(['User', 'ServicePrincipal', 'Group'])
 param principalType string = 'User'
 
+@description('App Service plan SKU.')
+param appServiceSkuName string = 'B1'
+
 var suffix = uniqueString(resourceGroup().id)
 var accountName = '${prefix}-foundry-${suffix}'
 var projectName = '${prefix}-project'
+var planName = '${prefix}-plan-${suffix}'
+var apiAppName = '${prefix}-api-${suffix}'
+var webAppName = '${prefix}-app-${suffix}'
 
 resource account 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
   name: accountName
@@ -83,7 +89,74 @@ resource userAccess 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!
   }
 }
 
+resource plan 'Microsoft.Web/serverfarms@2024-04-01' = {
+  name: planName
+  location: location
+  kind: 'linux'
+  sku: { name: appServiceSkuName }
+  properties: {
+    reserved: true
+  }
+}
+
+resource apiApp 'Microsoft.Web/sites@2024-04-01' = {
+  name: apiAppName
+  location: location
+  kind: 'app,linux'
+  identity: { type: 'SystemAssigned' }
+  properties: {
+    serverFarmId: plan.id
+    httpsOnly: true
+    siteConfig: {
+      linuxFxVersion: 'DOTNETCORE|10.0'
+      alwaysOn: appServiceSkuName != 'F1'
+      minTlsVersion: '1.2'
+      ftpsState: 'Disabled'
+      appSettings: [
+        // Overrides the localhost Urls value in appsettings.json.
+        { name: 'Urls', value: 'http://+:8080' }
+        { name: 'WEBSITES_PORT', value: '8080' }
+        { name: 'Foundry__ProjectEndpoint', value: 'https://${account.name}.services.ai.azure.com/api/projects/${project.name}' }
+        { name: 'Foundry__Model', value: deployment.name }
+        // /home is persistent storage shared across instances.
+        { name: 'History__Directory', value: '/home/data/history' }
+      ]
+    }
+  }
+}
+
+resource webApp 'Microsoft.Web/sites@2024-04-01' = {
+  name: webAppName
+  location: location
+  kind: 'app,linux'
+  properties: {
+    serverFarmId: plan.id
+    httpsOnly: true
+    siteConfig: {
+      linuxFxVersion: 'NODE|22-lts'
+      appCommandLine: 'pm2 serve /home/site/wwwroot --no-daemon --spa'
+      alwaysOn: appServiceSkuName != 'F1'
+      minTlsVersion: '1.2'
+      ftpsState: 'Disabled'
+    }
+  }
+}
+
+resource apiAccess 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(account.id, apiApp.id, azureAIUserRoleId)
+  scope: account
+  properties: {
+    principalId: apiApp.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', azureAIUserRoleId)
+  }
+}
+
 output accountName string = account.name
 output projectName string = project.name
 output projectEndpoint string = 'https://${account.name}.services.ai.azure.com/api/projects/${project.name}'
 output modelDeployment string = deployment.name
+output apiAppName string = apiApp.name
+output apiUrl string = 'https://${apiApp.properties.defaultHostName}'
+output webAppName string = webApp.name
+output webUrl string = 'https://${webApp.properties.defaultHostName}'

@@ -4,7 +4,7 @@ Chat bot built with **Microsoft Agent Framework (.NET)**, **AG-UI** and **assist
 
 - `src/api` – ASP.NET Core server. `MapAGUIServer("/agui", agent)` exposes the MAF agent over AG-UI; a middleware on the agent persists each conversation as JSON in `src/api/data/history/<threadId>.json`. `GET /api/history` and `GET /api/history/{id}` serve it back.
 - `src/app` – Vite + React UI (assistant-ui + `@assistant-ui/react-ag-ui`).
-- `bicep` – Foundry account, project and model deployment (`agui-` prefix).
+- `bicep` – Foundry account, project and model deployment, plus a Linux App Service plan hosting the API (.NET 10) and the app (Node, static SPA) (`agui-` prefix).
 
 ## Deploy Foundry
 ```
